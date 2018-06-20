@@ -2,6 +2,7 @@ package mains;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import modelosCabDet.Cabecera;
 import modelosCabDet.Detalle;
@@ -19,8 +20,11 @@ public class Principal {
 			Cabecera cab = gcd.obtenerCabecera();
 			System.out.println(cab);
 			
-			Detalle det = gcd.obtenerDetalle();
-			System.out.println(det);
+			ArrayList<Detalle> dets = gcd.obtenerDetalles();
+			
+			for(Detalle det : dets) {
+				System.out.println(det);
+			}
 			
 			//una vez tengamos los objetos Cab y Det podriamos enviar a un objeto GeneradorXML que aun no hicimos
 		}catch (IOException e) {

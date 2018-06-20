@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 // esta clase recibe dos directorios (pathCab y pathDet) y tiene dos metodos que retornan una Cabecera y Detalle respectivamente
 public class GeneradorCabDet {
@@ -42,30 +44,34 @@ public class GeneradorCabDet {
 	    
 	    return cab;
 	}
-	public Detalle obtenerDetalle() throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader (new File (pathDet)));
-		String linea = br.readLine();
-		String []arr = linea.split("\\|");
+	public ArrayList<Detalle> obtenerDetalles() throws IOException{
+		Scanner br = new Scanner(new File (pathDet));
 		
-		Detalle det = new Detalle();
-		
-		det.setCodUniMedItem(arr[0]);
-		det.setCantUniPorItem(arr[1]);
-		det.setCodProducto(arr[2]);
-		det.setCodProducSUNAT(arr[3]);
-		det.setDescripcion(arr[4]);
-		det.setValUnitario(arr[5]);
-		det.setDescuentos(arr[6]);
-		det.setMontoIGVPorItem(arr[7]);
-		det.setAfectIGV(arr[8]);
-		det.setMontoISCPorItem(arr[9]);
-		det.setTipSistemISC(arr[10]);
-		det.setPrecioVentaUniPorItem(arr[11]);
-		det.setValorVentaPorItem(arr[12]);
-		
+		ArrayList<Detalle> detalles = new ArrayList<>();
+		while(br.hasNextLine()) {
+			String linea = br.nextLine();
+			String []arr = linea.split("\\|");
+			
+			Detalle det = new Detalle();
+			
+			det.setCodUniMedItem(arr[0]);
+			det.setCantUniPorItem(arr[1]);
+			det.setCodProducto(arr[2]);
+			det.setCodProducSUNAT(arr[3]);
+			det.setDescripcion(arr[4]);
+			det.setValUnitario(arr[5]);
+			det.setDescuentos(arr[6]);
+			det.setMontoIGVPorItem(arr[7]);
+			det.setAfectIGV(arr[8]);
+			det.setMontoISCPorItem(arr[9]);
+			det.setTipSistemISC(arr[10]);
+			det.setPrecioVentaUniPorItem(arr[11]);
+			det.setValorVentaPorItem(arr[12]);
+			
+			detalles.add(det);
+		}
 		br.close();
-		
-		return det;
+		return detalles;
 		
 	}
 }
