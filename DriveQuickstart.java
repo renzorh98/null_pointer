@@ -1,4 +1,8 @@
+package main.java;
+
 import com.google.api.client.auth.oauth2.Credential;
+
+
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -32,12 +36,20 @@ public class DriveQuickstart {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials.
 
-    
+    /**
+     * Global instance of the scopes required by this quickstart.
+     * If modifying these scopes, delete your previously saved credentials/ folder.
+     */
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     private static final String CLIENT_SECRET_DIR = "client_secret.json";
 
 
-    
+    /**
+     * Creates an authorized Credential object.
+     * @param HTTP_TRANSPORT The network HTTP Transport.
+     * @return An authorized Credential object.
+     * @throws IOException If there is no client_secret.
+     */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
         InputStream in = DriveQuickstart.class.getResourceAsStream(CLIENT_SECRET_DIR);
@@ -71,13 +83,20 @@ public class DriveQuickstart {
       Drive service2 = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
               .setApplicationName(APPLICATION_NAME)
               .build();
-      
-      String folderId = "1tzQYR-OAW3BagwhJrtEHpVSyrwZx4c34";
       File fileMetadata = new File();
-      fileMetadata.setName(nombre+".pdf");
+      fileMetadata.setName(nombre+".xml");
+      java.io.File filePath = new java.io.File("E:\\"+nombre+".xml");
+      FileContent mediaContent = new FileContent("doc/xml", filePath);
+      File file = service2.files().create(fileMetadata, mediaContent)
+          .setFields("id")
+          .execute();
+      System.out.println("File ID: " + file.getId());
+  /*    String folderId = "1tzQYR-OAW3BagwhJrtEHpVSyrwZx4c34";
+      File fileMetadata = new File();
+      fileMetadata.setName(nombre+".xml");
       fileMetadata.setParents(Collections.singletonList(folderId));
-      java.io.File filePath = new java.io.File("E:\\"+nombre+".pdf");
-      FileContent mediaContent = new FileContent("doc/pdf", filePath);
+      java.io.File filePath = new java.io.File("E:\\"+nombre+".xml");
+      FileContent mediaContent = new FileContent("doc/xml", filePath);
         try {
 		
 		File file = service2.files().create(fileMetadata, mediaContent)
@@ -86,7 +105,7 @@ public class DriveQuickstart {
       System.out.println("File ID: " + file.getId());
       } catch (IOException e) {
           System.out.println("An error occurred: " + e);
-        }
+        }*/
 	  
   }
   public static void descargar(String nombre, String id) throws IOException, GeneralSecurityException{
